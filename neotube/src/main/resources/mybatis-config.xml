@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+   <typeAliases>
+      <typeAlias type="com.mega.p3.kids.KidsVO" alias="kidsVO"></typeAlias>
+      <typeAlias type="com.mega.p3.kids.KidsVONamed" alias="kidsVONamed"></typeAlias>
+   </typeAliases>
+   <mappers>
+      <mapper resource="mapper/kids-mapper.xml" />
+   </mappers>
+</configuration>

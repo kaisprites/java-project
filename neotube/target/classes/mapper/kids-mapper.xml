@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kids"><!-- 
+	public KidsVO one(String video_id);
+	public List<KidsVO> listByCategory(String category);
+	public List<KidsVO> listBySearch(String query);
+	public void upload(KidsVO vo); -->
+	<select id = "one" parameterType = "kidsVO" resultType = "kidsVONamed">	
+		select video_id, video_title, video_url, play_num, video_leng, video_date, like_num, dislike_num, tag, category, channel_title
+		from video
+		inner join channel on video.channel_id = channel.channel_id
+		where video_id = #{video_id}
+	</select>
+	<select id = "listByCategory" parameterType = "kidsVO" resultType="kidsVONamed">
+		select video_id, video_title, video_url, play_num, video_leng, video_date, channel_title, thumbnail 
+		from video
+		inner join channel on video.channel_id = channel.channel_id
+		order by video_date desc;
+	</select>
+	<select id = "listBySearch" resultType="kidsVO">
+	</select>
+	<insert id = "upload" parameterType = "kidsVO">
+	</insert>
+</mapper>
