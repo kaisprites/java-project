@@ -5,7 +5,7 @@
 <configuration>
    <typeAliases>
       <typeAlias type="com.mega.p3.kids.KidsVO" alias="kidsVO"></typeAlias>
-      <typeAlias type="com.mega.p3.kids.KidsVONamed" alias="kidsVONamed"></typeAlias>
+      <typeAlias type="com.mega.p3.kids.KidsVOWithChannel" alias="kidsVOWithChannel"></typeAlias>
    </typeAliases>
    <mappers>
       <mapper resource="mapper/kids-mapper.xml" />

@@ -13,13 +13,13 @@ public class KidsDAO implements KidsInterface {
 	SqlSessionTemplate mybatis;
 
 	@Override
-	public KidsVONamed one(KidsVO kidsVO) {
+	public KidsVOWithChannel one(KidsVO kidsVO) {
 		return mybatis.selectOne("one", kidsVO);
 	}
 
 	@Override
-	public List<KidsVONamed> listByCategory(KidsVO kidsVO) {
-		List<KidsVONamed> result = mybatis.selectList("listByCategory", kidsVO);
+	public List<KidsVOWithChannel> listByCategory(KidsVO kidsVO) {
+		List<KidsVOWithChannel> result = mybatis.selectList("listByCategory", kidsVO);
 		return result;
 	}
 

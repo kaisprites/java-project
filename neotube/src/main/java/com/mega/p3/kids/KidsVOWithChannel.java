@@ -1,6 +1,6 @@
 package com.mega.p3.kids;
 
-public class KidsVONamed extends KidsVO {
+public class KidsVOWithChannel extends KidsVO {
 	String channel_title;
 
 	public String getChannel_title() {

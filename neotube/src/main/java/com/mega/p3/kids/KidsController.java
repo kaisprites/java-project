@@ -1,7 +1,6 @@
 package com.mega.p3.kids;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class KidsController {
 	public String listByCategory(String category, Model model) {
 		KidsVO vo = new KidsVO();
 		vo.setCategory(category);
-		List<KidsVONamed> bag = service.listByCategory(vo);
+		List<KidsVOWithChannel> bag = service.listByCategory(vo);
 		model.addAttribute("bag", bag);
 		return "list";
 	}
@@ -30,11 +29,13 @@ public class KidsController {
 	}
 	
 	@RequestMapping("video")
-	public String getVideo(String video_id, Model model) {
+	public String getVideo(String id, Model model) {
 		KidsVO vo = new KidsVO();
-		vo.setVideo_id(video_id);
-		KidsVONamed video = service.one(vo);
+		vo.setVideo_id(id);
+		KidsVOWithChannel video = service.one(vo);
 		model.addAttribute("video", video);
+		String[] taglist = video.getTag().split(" ");
+		model.addAttribute("taglist", taglist);
 		return "video";
 	}
 

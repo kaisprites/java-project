@@ -12,12 +12,12 @@ public class KidsService implements KidsInterface {
 	KidsDAO dao;
 
 	@Override
-	public KidsVONamed one(KidsVO kidsVO) {
+	public KidsVOWithChannel one(KidsVO kidsVO) {
 		return dao.one(kidsVO);
 	}
 
 	@Override
-	public List<KidsVONamed> listByCategory(KidsVO kidsVO) {
+	public List<KidsVOWithChannel> listByCategory(KidsVO kidsVO) {
 		return dao.listByCategory(kidsVO);
 	}
 
