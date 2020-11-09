@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +15,16 @@
 		padding: 0;
 		font-size: 0.8em;
 	}
+	hr {
+		margin: 10px;
+		border-top: 1px solid #999999;
+		border-bottom: 1px solid #cccccc;  
+		z-index: -1;
+	}
 	h1 {
 		font-size: 1.2em;
 	}
-	h2 {
+	h3 {
 		font-size: 1em;
 	}
 	div {
@@ -43,11 +50,11 @@
 	div.video-description-control {
 		position: relative;
 		height: 0;
-		top: -30px;
+		top: -20px;
 	}
 	
 	div.video-description-control div {
-		right: -550px;
+		right: -700px;
 	}
 	
 	div.next-video-container {
@@ -55,6 +62,7 @@
 		width: 300px;
 	}
 	
+	div.reply-add * { vertical-align: top; }
 </style>
 </head>
 <body>
@@ -75,6 +83,7 @@
 					<p>조회수 <fmt:formatNumber value="${ video.play_num }" />회 • <fmt:formatDate value="${ video.video_date }" /></p>
 				</div>
 				<div class="video-description-control">
+				<!-- 좋아요 싫어요 수치가 1천이상이면 축약표기 해주기 -->
 				<c:set var="like_num">
 					<c:choose>
 						<c:when test="${video.like_num > 10000}">
@@ -102,9 +111,33 @@
 					</c:choose>
 				</c:set>
 					<div class="btn-group">
-						<button type="button" class="btn btn-dark" onclick="location.href=#">좋아요 ${like_num}</button>
-						<button type="button" class="btn btn-dark" onclick="location.href=#">싫어요 ${dislike_num}</button> 
-						<button type="button" class="btn btn-dark" onclick="location.href=#">리스트에 추가</button>
+					<!-- 비동기통신으로 버튼에 색깔 입히기 위해 긴급하게 db랑 직통하기 -->
+						<sql:setDataSource
+							url="jdbc:mysql://localhost:3366/nutube"
+							driver="com.mysql.jdbc.Driver"
+							user="root"
+							password="1234"
+							scope="application"
+							var="db"
+						/>
+						<sql:query var="like_type" dataSource="${db}">
+							select `like` from user_like
+							where user_id = '${sessionScope.id}' and video_id = '${video.video_id}'
+						</sql:query>
+						<c:set var="like_classname">
+							<c:choose>
+								<c:when test="${like_type.getRowsByIndex()[0][0] == 1}">btn-primary</c:when>
+								<c:otherwise>btn-dark</c:otherwise>
+							</c:choose>
+						</c:set>
+						<c:set var="dislike_classname">
+							<c:choose>
+								<c:when test="${like_type.getRowsByIndex()[0][0] == 2}">btn-danger</c:when>
+								<c:otherwise>btn-dark</c:otherwise>
+							</c:choose>
+						</c:set>
+						<button id="like" type="button" class="btn ${like_classname }"> 좋아요 ${like_num}</button>
+						<button id="dislike" type="button" class="btn ${dislike_classname }">싫어요 ${dislike_num}</button> 
 					</div>
 				</div>
 				<hr style="position: relative">
@@ -117,11 +150,67 @@
 				</div>
 			</div>
 			<hr>
-			<div class="reply"></div>
+			<div class="reply">
+				<div class="reply-add">
+					<form action="reply" method="POST">
+						<textarea id="reply-content" cols=100 name="content"></textarea>
+						<button class="btn btn-dark">작성</button>
+					</form>
+				</div>
+				<div class="reply-list">
+					
+				</div>
+			</div>
 		</div>
 		<div class="next-video-container"></div>
 	</div>
 </div>
 </body>
-	
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+	$(function() {
+		$.ajax({
+			url: "reply",
+			data: {video_id: "${video.video_id}"},
+			type: "GET",
+			success: function(result){
+				console.log(result)
+			}
+		})
+		$('button#like').click(function(){
+			if ("${sessionScope.id}" == "") {
+				alert("로그인 후 이용할 수 있습니다")
+				return
+			} 
+			$.ajax({
+				url: "like",
+				data: {
+					video_id:"${video.video_id}",
+					user_id:"${sessionScope.id}"
+				},
+				success: function(result){
+					location.reload();
+				}
+			})
+		})
+		$('button#dislike').click(function(){
+			if ("${sessionScope.id}" == "") {
+				alert("로그인 후 이용할 수 있습니다")
+				return
+			} 
+			$.ajax({
+				url: "dislike",
+				data: {
+					video_id:"${video.video_id}",
+					user_id:"${sessionScope.id}"
+				},
+				success: function(result){
+					location.reload();
+				}
+			})
+		})
+	})
+</script>
 </html>

@@ -15,10 +15,56 @@
 		select video_id, video_title, video_url, play_num, video_leng, video_date, channel_title, thumbnail 
 		from video
 		inner join channel on video.channel_id = channel.channel_id
-		order by video_date desc;
+		order by video_date desc, video_title asc;
 	</select>
 	<select id = "listBySearch" resultType="kidsVO">
 	</select>
 	<insert id = "upload" parameterType = "kidsVO">
 	</insert>
+	<insert id = "userLike" parameterType = "userControlVO">
+		insert into user_like
+		values (#{user_id}, #{video_id}, 1) 
+	</insert>
+	<insert id = "userDislike" parameterType = "userControlVO">
+		insert into user_like
+		values (#{user_id}, #{video_id}, 2)
+	</insert>
+	<select id = "getLike" parameterType = "userControlVO" resultType="integer">
+		select `like` from user_like
+		where user_id = #{user_id} and video_id = #{video_id}
+	</select>
+	<delete id = "likeCancel" parameterType = "userControlVO">
+		delete from user_like
+		where user_id = #{user_id} and video_id = #{video_id}
+	</delete>
+	<update id = "videoLike" parameterType = "userControlVO">
+		update video
+		set like_num = like_num + 1
+		where video_id = #{video_id}
+	</update>
+	<update id = "videoDislike" parameterType = "userControlVO">
+		update video
+		set dislike_num = dislike_num + 1
+		where video_id = #{video_id}
+	</update>
+	<update id = "videoLikeUndo" parameterType = "userControlVO">
+		update video
+		set like_num = like_num - 1
+		where video_id = #{video_id}
+	</update>
+	<update id = "videoDislikeUndo" parameterType = "userControlVO">
+		update video
+		set dislike_num = dislike_num - 1
+		where video_id = #{video_id}
+	</update>
+	<select id = "getReplyMaxId" parameterType = "replyMaxIDVO" resultType = "integer">
+		select max(SUBSTR(reply_id, 4))
+		from reply
+		where reply_id like "#{category}_%"
+	</select>
+	<select id = "getReply" parameterType = "replyVO" resultType = "replyVO">
+		select user_id, content, date
+		from reply
+		where video_id = #{video_id}
+	</select> 
 </mapper>

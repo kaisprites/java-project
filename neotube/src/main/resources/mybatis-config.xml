@@ -6,6 +6,9 @@
    <typeAliases>
       <typeAlias type="com.mega.p3.kids.KidsVO" alias="kidsVO"></typeAlias>
       <typeAlias type="com.mega.p3.kids.KidsVOWithChannel" alias="kidsVOWithChannel"></typeAlias>
+      <typeAlias type="com.mega.p3.kids.UserControlVO" alias="userControlVO"></typeAlias>
+      <typeAlias type="com.mega.p3.kids.ReplyVO" alias="replyVO"></typeAlias>
+      <typeAlias type="com.mega.p3.kids.ReplyMaxIDVO" alias="replyMaxIDVO"></typeAlias>
    </typeAliases>
    <mappers>
       <mapper resource="mapper/kids-mapper.xml" />
