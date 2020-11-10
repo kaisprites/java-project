@@ -1,6 +1,6 @@
 package com.mega.p3.kids;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class ReplyVO {
 	String reply_id;
@@ -8,7 +8,7 @@ public class ReplyVO {
 	String video_id;
 	int border_id;
 	String content;
-	LocalDateTime date;
+	Date date;
 	
 	public String getReply_id() {
 		return reply_id;
@@ -40,10 +40,10 @@ public class ReplyVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public LocalDateTime getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(LocalDateTime date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 }

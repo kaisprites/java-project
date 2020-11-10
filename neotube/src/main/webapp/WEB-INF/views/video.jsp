@@ -63,6 +63,11 @@
 	}
 	
 	div.reply-add * { vertical-align: top; }
+	
+	div.reply-item {
+		margin: 20px 0;
+	}
+	
 </style>
 </head>
 <body>
@@ -152,10 +157,17 @@
 			<hr>
 			<div class="reply">
 				<div class="reply-add">
-					<form action="reply" method="POST">
-						<textarea id="reply-content" cols=100 name="content"></textarea>
-						<button class="btn btn-dark">작성</button>
-					</form>
+					<c:choose>
+						<c:when test="${sessionScope.id == ''}">
+							<div class="alert alert-warning">로그인 후 사용할 수 있습니다.</div>
+						</c:when>
+						<c:otherwise>
+							<input name="user_id" value="${sessionScope.id}" hidden="hidden">
+							<input name="video_id" value="${video.video_id}" hidden="hidden">
+							<textarea id="reply-content" cols=100 name="content"></textarea>
+							<button class="btn btn-dark" id="reply-submit">작성</button>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="reply-list">
 					
@@ -176,7 +188,7 @@
 			data: {video_id: "${video.video_id}"},
 			type: "GET",
 			success: function(result){
-				console.log(result)
+				$("div.reply-list").html(result)
 			}
 		})
 		$('button#like').click(function(){
@@ -207,6 +219,20 @@
 					user_id:"${sessionScope.id}"
 				},
 				success: function(result){
+					location.reload();
+				}
+			})
+		})
+		$('button#reply-submit').click(function() {
+			$.ajax({
+				url: "reply",
+				type: "POST",
+				data: {
+					user_id: "${sessionScope.id}",
+					video_id: "${video.video_id}",
+					content: $('#reply-content').val()
+				},
+				success: function(result) {
 					location.reload();
 				}
 			})

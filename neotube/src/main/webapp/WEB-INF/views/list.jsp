@@ -1,6 +1,7 @@
 <%@page import="com.mega.p3.kids.KidsVO"%><%@page import="java.util.List"%><%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><c:forEach items="${bag}" var="vo">	
-	<div class="item" onclick="location.href='video?id=${ vo.video_id }&user_id=${ sessionScope.id }'">
+    pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:forEach items="${bag}" var="vo">	
+	<div class="item" onclick="location.href='video?id=${ vo.video_id }'">
 		<input name="" value="" hidden="hidden">
 		<div class="item-thumbnail">
 			<img class="thumbnail" src="${ vo.thumbnail }">
@@ -25,15 +26,4 @@
 		<div class="item-mouseon-highlighter"></div>
 	</div>
 </c:forEach>
-
-<script> 
-	$(function(){
-		$('div.item-mouseon-highlighter')
-			.mouseenter(function() {
-				$(this).css("background","#cccccc80")
-			})
-			.mouseleave(function() {
-				$(this).css("background","#cccccc00")
-			})
-	})
-</script>
+<script src="<c:url value="/resources/list.js" />"></script>

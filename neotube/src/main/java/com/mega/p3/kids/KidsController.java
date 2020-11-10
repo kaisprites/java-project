@@ -15,9 +15,9 @@ public class KidsController {
 	KidsService service;
 	
 	@RequestMapping("list")
-	public String listByCategory(String category, Model model) {
-		KidsVO vo = new KidsVO();
-		vo.setCategory(category);
+	public String listByCategory(SearcherVO vo, int count, Model model) {
+		vo.setStart(count * 50);
+		vo.setAmount(50);
 		List<KidsVOWithChannel> bag = service.listByCategory(vo);
 		model.addAttribute("bag", bag);
 		return "list";
@@ -56,13 +56,23 @@ public class KidsController {
 	}
 	
 	@RequestMapping(value="reply", method=RequestMethod.GET)
-	public String getReply(String video_id, Model model) {
-		ReplyVO vo = new ReplyVO();
-		vo.setVideo_id(video_id);
+	public String getReply(ReplyVO vo, Model model) {
 		List<ReplyVO> bag = service.getReply(vo);
-		System.out.println(bag.size());
 		model.addAttribute("reply_bag", bag);
 		return "reply";
+	}
+	
+	@RequestMapping(value="reply", method=RequestMethod.POST)
+	public String postReply(ReplyVO vo, Model model) {		
+		service.postReply(vo);
+		return "submitreply";
+	}
+	
+	@RequestMapping("nextvideo")
+	public String nextVideoList(Model model) {
+		List<KidsVO> bag = service.nextVideoList();
+		
+		return null;
 	}
 
 	public void upload(KidsVO vo) {

@@ -16,8 +16,8 @@ public class KidsDAO {
 		return mybatis.selectOne("one", kidsVO);
 	}
 
-	public List<KidsVOWithChannel> listByCategory(KidsVO kidsVO) {
-		List<KidsVOWithChannel> result = mybatis.selectList("listByCategory", kidsVO);
+	public List<KidsVOWithChannel> listByCategory(SearcherVO vo) {
+		List<KidsVOWithChannel> result = mybatis.selectList("listByCategory", vo);
 		return result;
 	}
 
@@ -66,6 +66,19 @@ public class KidsDAO {
 	public List<ReplyVO> getReply(ReplyVO vo) {
 		List<ReplyVO> bag = mybatis.selectList("getReply",vo);
 		return bag;
+	}
+
+	public int getReplyMaxID(ReplyMaxIDVO rmidvo) {
+		int result = mybatis.selectOne("getReplyMaxId", rmidvo);
+		return result;
+	}
+
+	public int postReply(ReplyVO vo) {
+		return mybatis.insert("postReply",vo);
+	}
+
+	public String getCategory(ReplyVO vo) {
+		return mybatis.selectOne("getCategory",vo);
 	}
 	
 }

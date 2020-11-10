@@ -1,5 +1,6 @@
 package com.mega.p3.kids;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class KidsService {
 		return dao.one(kidsVO);
 	}
 
-	public List<KidsVOWithChannel> listByCategory(KidsVO kidsVO) {
-		return dao.listByCategory(kidsVO);
+	public List<KidsVOWithChannel> listByCategory(SearcherVO vo) {
+		return dao.listByCategory(vo);
 	}
 
 	public List<KidsVO> listBySearch(String query) {
@@ -71,5 +72,21 @@ public class KidsService {
 
 	public List<ReplyVO> getReply(ReplyVO vo) {
 		return dao.getReply(vo);
+	}
+
+	public int postReply(ReplyVO vo) {
+		ReplyMaxIDVO rmidvo = new ReplyMaxIDVO();
+		rmidvo.setReply_id(vo.getReply_id());
+		String category = dao.getCategory(vo);
+		rmidvo.setCategory(category);
+		int replyMaxId = dao.getReplyMaxID(rmidvo);
+		vo.setReply_id(category + "_" + (replyMaxId+1));
+		vo.setDate(new Date());
+		return dao.postReply(vo);
+	}
+
+	public List<KidsVO> nextVideoList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

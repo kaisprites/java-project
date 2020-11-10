@@ -11,11 +11,12 @@
 		inner join channel on video.channel_id = channel.channel_id
 		where video_id = #{video_id}
 	</select>
-	<select id = "listByCategory" parameterType = "kidsVO" resultType="kidsVOWithChannel">
+	<select id = "listByCategory" parameterType = "searcherVO" resultType="kidsVOWithChannel">
 		select video_id, video_title, video_url, play_num, video_leng, video_date, channel_title, thumbnail 
 		from video
 		inner join channel on video.channel_id = channel.channel_id
-		order by video_date desc, video_title asc;
+		order by video_date desc, video_title asc
+		limit #{start}, #{amount}
 	</select>
 	<select id = "listBySearch" resultType="kidsVO">
 	</select>
@@ -57,14 +58,24 @@
 		set dislike_num = dislike_num - 1
 		where video_id = #{video_id}
 	</update>
-	<select id = "getReplyMaxId" parameterType = "replyMaxIDVO" resultType = "integer">
-		select max(SUBSTR(reply_id, 4))
+	<select id = "getReplyMaxId" parameterType = "replyMaxIDVO" resultType = "_int">
+		select max(SUBSTR(reply_id, CHARACTER_LENGTH(#{category})+2))
 		from reply
-		where reply_id like "#{category}_%"
+		where reply_id like concat(#{category}, "_%")
 	</select>
 	<select id = "getReply" parameterType = "replyVO" resultType = "replyVO">
 		select user_id, content, date
 		from reply
 		where video_id = #{video_id}
+		order by date desc
 	</select> 
+	<insert id = "postReply" parameterType = "replyVO">
+		insert into reply
+		value (#{reply_id}, #{user_id}, #{video_id}, null, #{content}, #{date})
+	</insert>
+	<select id = "getCategory" parameterType = "kidsVO" resultType = "string">
+		select category
+		from video
+		where video_id = #{video_id};
+	</select>
 </mapper>
