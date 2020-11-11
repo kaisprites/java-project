@@ -1,5 +1,9 @@
+/**
+ * 
+ */
+
 	$(function(){
-		$('div.item-mouseon-highlighter')
+		$('div.next-video-mouseon-highlighter')
 			.mouseenter(function() {
 				$(this).css("background","#cccccc80")
 			})

@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 	$(function() {
 		count = 0;
 		load = _=>{ 
@@ -17,6 +20,6 @@
 				count++
 				load()
 			}
-	})
-	$(document).ready(function(){load()})
+		})
+		$(document).ready(function(){load()})
 	})

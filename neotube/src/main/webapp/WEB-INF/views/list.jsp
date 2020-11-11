@@ -20,7 +20,7 @@
 			<p>
 				<span class="item-desc-channel-title one-line-ellipsis">${ vo.channel_title }</span><br>
 				조회수: <fmt:formatNumber value="${ vo.play_num }"/> /
-				일시: <fmt:formatDate value="${ vo.video_date }"/> 
+				<fmt:formatDate value="${ vo.video_date }"/> 
 			</p>
 		</div>
 		<div class="item-mouseon-highlighter"></div>

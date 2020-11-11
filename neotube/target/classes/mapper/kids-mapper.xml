@@ -59,7 +59,7 @@
 		where video_id = #{video_id}
 	</update>
 	<select id = "getReplyMaxId" parameterType = "replyMaxIDVO" resultType = "_int">
-		select max(SUBSTR(reply_id, CHARACTER_LENGTH(#{category})+2))
+		select max(cast(substring(reply_id, CHARACTER_LENGTH(#{category})+2) as signed))
 		from reply
 		where reply_id like concat(#{category}, "_%")
 	</select>

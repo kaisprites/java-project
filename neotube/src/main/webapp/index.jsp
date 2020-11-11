@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>NUTUBE KIDS</title>
-<link href="<c:url value="/resources/index.css" />" type="text/css" rel="stylesheet" />
+<link href="<c:url value="/resources/index.css?after" />" type="text/css" rel="stylesheet" />
 </head>
 <body>
 <h3>일단 영상목록을 띄워보자</h3>

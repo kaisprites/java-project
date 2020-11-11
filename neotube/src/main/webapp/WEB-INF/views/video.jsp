@@ -9,73 +9,14 @@
 <meta charset="UTF-8">
 <title>${video.video_title} - NUTUBE</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<style>
-	p {
-		margin: 0;
-		padding: 0;
-		font-size: 0.8em;
-	}
-	hr {
-		margin: 10px;
-		border-top: 1px solid #999999;
-		border-bottom: 1px solid #cccccc;  
-		z-index: -1;
-	}
-	h1 {
-		font-size: 1.2em;
-	}
-	h3 {
-		font-size: 1em;
-	}
-	div {
-		box-sizing: border-box;		
-	}
-	div.wrapper {
-		display: flex;
-		justify-content: center;
-	}
-
-	div.container {
-		display: inline-block;
-		width: 1200px;
-		margin: 0 auto;
-		padding: 0;	
-	}
-	
-	div.video-container {
-		display: inline-block;
-		width: 900px;
-	}
-	
-	div.video-description-control {
-		position: relative;
-		height: 0;
-		top: -20px;
-	}
-	
-	div.video-description-control div {
-		right: -700px;
-	}
-	
-	div.next-video-container {
-		display: inline-block;
-		width: 300px;
-	}
-	
-	div.reply-add * { vertical-align: top; }
-	
-	div.reply-item {
-		margin: 20px 0;
-	}
-	
-</style>
+<link rel="stylesheet" href="<c:url value="/resources/video.css?after" />" type="text/css" />
 </head>
 <body>
 <div class="wrapper">
 	<div class="container">
 		<div class="video-container">
 			<div class="video">
-				<iframe width="896" height="504" src="https://www.youtube.com/embed/${ video.video_id }" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<iframe src="https://www.youtube.com/embed/${ video.video_id }" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 			<div class="video-description">
 				<div class="video-description-video">
@@ -164,79 +105,142 @@
 						<c:otherwise>
 							<input name="user_id" value="${sessionScope.id}" hidden="hidden">
 							<input name="video_id" value="${video.video_id}" hidden="hidden">
-							<textarea id="reply-content" cols=100 name="content"></textarea>
+							<textarea id="reply-content" name="content"></textarea>
 							<button class="btn btn-dark" id="reply-submit">작성</button>
 						</c:otherwise>
 					</c:choose>
 				</div>
-				<div class="reply-list">
+				<div id="reply-list">
 					
 				</div>
+				<div id="reply-gradiater"></div>
 			</div>
 		</div>
-		<div class="next-video-container"></div>
+		<div class="next-video-container">
+		    <h3>다음 동영상</h3>
+	    	
+		</div>
 	</div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!--  <script src="<c:url value="/resources/video.js?after" />"></script> -->
+
 <script>
-	$(function() {
+$(function() {
+	count = 0
+	$.ajax({
+		url: "reply",
+		data: {video_id: "${video.video_id}"},
+		type: "GET",
+		success: function(result){
+			$("div#reply-list").html(result)
+		}
+	})
+	loadnextvideo = _=>{
+		if(count < 10) {
+			$.ajax({
+				url: 'nextvideo',
+				data: {
+					category: "키즈",
+					count: count
+				},
+				success: function (result) {
+					$("div.next-video-container").append(result)
+				}
+			})
+		}
+	}
+	$(window).scroll(function() {
+		if($(window).scrollTop() >= $(document).height() - $(window).height()) {
+			count++;
+			loadnextvideo()
+		}
+	})
+	$(document).ready(function(){loadnextvideo()})
+	$('button#like').click(function(){
+		if ("${sessionScope.id}" == "") {
+			alert("로그인 후 이용할 수 있습니다")
+			return
+		} 
 		$.ajax({
-			url: "reply",
-			data: {video_id: "${video.video_id}"},
-			type: "GET",
+			url: "like",
+			data: {
+				video_id:"${video.video_id}",
+				user_id:"${sessionScope.id}"
+			},
 			success: function(result){
-				$("div.reply-list").html(result)
+				switch(result) {
+				case "do":
+					$('button#like').attr('class', 'btn btn-primary');
+					$('button#like').html("좋아요 " + (parseInt($('button#like').html().substring(4)) + 1))
+					break;
+				case "toggle":
+					$('button#like').attr('class', 'btn btn-primary');
+					$('button#like').html("좋아요 " + (parseInt($('button#like').html().substring(4)) + 1))
+					$('button#dislike').attr('class', 'btn btn-dark');
+					$('button#dislike').html("싫어요 " + (parseInt($('button#dislike').html().substring(4)) - 1))
+					break;
+				case "undo":
+					$('button#like').attr('class', 'btn btn-dark');
+					$('button#like').html("좋아요 " + (parseInt($('button#like').html().substring(4)) - 1))
+					break;
+				}
 			}
 		})
-		$('button#like').click(function(){
-			if ("${sessionScope.id}" == "") {
-				alert("로그인 후 이용할 수 있습니다")
-				return
-			} 
-			$.ajax({
-				url: "like",
-				data: {
-					video_id:"${video.video_id}",
-					user_id:"${sessionScope.id}"
-				},
-				success: function(result){
-					location.reload();
+	})
+	$('button#dislike').click(function(){
+		if ("${sessionScope.id}" == "") {
+			alert("로그인 후 이용할 수 있습니다")
+			return
+		} 
+		$.ajax({
+			url: "dislike",
+			data: {
+				video_id:"${video.video_id}",
+				user_id:"${sessionScope.id}"
+			},
+			success: function(result){
+				switch(result) {
+				case "do":
+					$('button#dislike').attr('class', 'btn btn-danger');
+					$('button#dislike').html("싫어요 " + (parseInt($('button#dislike').html().substring(4)) + 1))
+					break;
+				case "toggle":
+					$('button#dislike').attr('class', 'btn btn-danger');
+					$('button#dislike').html("싫어요 " + (parseInt($('button#dislike').html().substring(4)) + 1))
+					$('button#like').attr('class', 'btn btn-dark');
+					$('button#like').html("좋아요 " + (parseInt($('button#like').html().substring(4)) - 1))
+					break;
+				case "undo":
+					$('button#dislike').attr('class', 'btn btn-dark');
+					$('button#dislike').html("싫어요 " + (parseInt($('button#dislike').html().substring(4)) - 1))
+					break;
 				}
-			})
-		})
-		$('button#dislike').click(function(){
-			if ("${sessionScope.id}" == "") {
-				alert("로그인 후 이용할 수 있습니다")
-				return
-			} 
-			$.ajax({
-				url: "dislike",
-				data: {
-					video_id:"${video.video_id}",
-					user_id:"${sessionScope.id}"
-				},
-				success: function(result){
-					location.reload();
-				}
-			})
-		})
-		$('button#reply-submit').click(function() {
-			$.ajax({
-				url: "reply",
-				type: "POST",
-				data: {
-					user_id: "${sessionScope.id}",
-					video_id: "${video.video_id}",
-					content: $('#reply-content').val()
-				},
-				success: function(result) {
-					location.reload();
-				}
-			})
+			}
 		})
 	})
+	$('button#reply-submit').click(function() {
+		$.ajax({
+			url: "reply",
+			type: "POST",
+			data: {
+				user_id: "${sessionScope.id}",
+				video_id: "${video.video_id}",
+				content: $('#reply-content').val()
+			},
+			success: function(result) {
+				console.log(result);
+				if(result == "contentlessreply") alert("내용을 입력하세요")
+				else {
+					$('#reply-list').prepend(result);
+					$('#reply-content').val('');
+				}
+			}
+		})
+	})
+})
 </script>
 </html>

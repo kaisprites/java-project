@@ -42,17 +42,17 @@ public class KidsController {
 	}
 	
 	@RequestMapping("like")
-	public String likeVideo(UserControlVO vo) {
-		int result = service.likeVideo(vo);
-		if(result == 1) return "like";
-		else return "likefail";
+	public String likeVideo(UserControlVO vo, Model model) {
+		String result = service.likeVideo(vo); //"do", "undo", "toggle"
+		model.addAttribute("result", result);
+		return "like";
 	}
 	
 	@RequestMapping("dislike")
-	public String dislikeVideo(UserControlVO vo) {
-		int result = service.dislikeVideo(vo);
-		if(result == 1) return "dislike";
-		else return "likefail";
+	public String dislikeVideo(UserControlVO vo, Model model) {
+		String result = service.dislikeVideo(vo);
+		model.addAttribute("result", result);
+		return "dislike";
 	}
 	
 	@RequestMapping(value="reply", method=RequestMethod.GET)
@@ -63,16 +63,20 @@ public class KidsController {
 	}
 	
 	@RequestMapping(value="reply", method=RequestMethod.POST)
-	public String postReply(ReplyVO vo, Model model) {		
-		service.postReply(vo);
+	public String postReply(ReplyVO vo, Model model) {
+		if(vo.getContent() == "") return "contentlessreply";
+		ReplyVO result = service.postReply(vo);
+		model.addAttribute("replyvo", result);
 		return "submitreply";
 	}
 	
 	@RequestMapping("nextvideo")
-	public String nextVideoList(Model model) {
-		List<KidsVO> bag = service.nextVideoList();
-		
-		return null;
+	public String nextVideoList(SearcherVO vo, int count, Model model) {
+		vo.setStart(count * 20);
+		vo.setAmount(20);
+		List<KidsVOWithChannel> bag = service.listByCategory(vo);
+		model.addAttribute("bag", bag);
+		return "nextvideo";
 	}
 
 	public void upload(KidsVO vo) {
