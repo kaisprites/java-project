@@ -43,7 +43,7 @@
 	</aside>
 	<!-- 본문 -->
 	<div class="main_page">
-		<h1>홈</h1>
+		<h1>좋아요한 목록</h1>
 	</div>
 	<div class="main_frame">
 		<div id="item-list">
@@ -52,6 +52,7 @@
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="<c:url value="/resources/js/home.js" />"></script>
+<script src="<c:url value="/resources/js/index.js" />"></script>
 </html>
 
+	

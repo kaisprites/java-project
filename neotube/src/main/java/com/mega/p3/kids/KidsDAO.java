@@ -20,9 +20,9 @@ public class KidsDAO {
 		List<KidsVOWithChannel> result = mybatis.selectList("listByCategory", vo);
 		return result;
 	}
-
+	
 	public List<KidsVO> listBySearch(String query) {
-		// TODO Auto-generated method stub
+		List<KidsVOWithChannel> result = mybatis.selectList("listByCategory", vo);
 		return null;
 	}
 

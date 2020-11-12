@@ -19,6 +19,10 @@ public class KidsService {
 	public List<KidsVOWithChannel> listByCategory(SearcherVO vo) {
 		return dao.listByCategory(vo);
 	}
+	
+	public List<KidsVOWithChannel> listByLike(SearcherVO vo) {
+		return dao.listByLike(vo);
+	}
 
 	public List<KidsVO> listBySearch(String query) {
 		// TODO Auto-generated method stub
@@ -91,6 +95,8 @@ public class KidsService {
 		dao.postReply(vo);
 		return vo;
 	}
+
+
 
 //	public List<KidsVO> nextVideoList() {
 //		return dao.listByCategory(vo);

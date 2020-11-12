@@ -8,17 +8,48 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+@RequestMapping("kids")
 @Controller
 public class KidsController {
 	
 	@Autowired
 	KidsService service;
 	
-	@RequestMapping("list")
+	@RequestMapping("/home")
+	public String home() {
+		return "home";
+	}
+	@RequestMapping("/popular")
+	public String popular() {
+		return "popular";
+	}
+	@RequestMapping("/subscribed")
+	public String subscribed() {
+		return "subscribed";
+	}
+	@RequestMapping("/likelist")
+	public String likelist() {
+		return "likelist";
+	}
+	@RequestMapping("/history")
+	public String history() {
+		return "history";
+	}
+	
+	@RequestMapping("/home")
 	public String listByCategory(SearcherVO vo, int count, Model model) {
 		vo.setStart(count * 50);
 		vo.setAmount(50);
 		List<KidsVOWithChannel> bag = service.listByCategory(vo);
+		model.addAttribute("bag", bag);
+		return "list";
+	}
+	
+	@RequestMapping("/likelist")
+	public String listByLike(SearcherVO vo, int count, Model model) {
+		vo.setStart(count * 50);
+		vo.setAmount(50);;
+		List<KidsVOWithChannel> bag = service.listByLike(vo);
 		model.addAttribute("bag", bag);
 		return "list";
 	}
@@ -28,7 +59,7 @@ public class KidsController {
 		return null;
 	}
 	
-	@RequestMapping("video")
+	@RequestMapping("/video")
 	public String getVideo(String id, String user_id, Model model) {
 		KidsVO vo = new KidsVO();
 		vo.setVideo_id(id);
@@ -41,28 +72,28 @@ public class KidsController {
 		return "video";
 	}
 	
-	@RequestMapping("like")
+	@RequestMapping("/like")
 	public String likeVideo(UserControlVO vo, Model model) {
 		String result = service.likeVideo(vo); //"do", "undo", "toggle"
 		model.addAttribute("result", result);
 		return "like";
 	}
 	
-	@RequestMapping("dislike")
+	@RequestMapping("/dislike")
 	public String dislikeVideo(UserControlVO vo, Model model) {
 		String result = service.dislikeVideo(vo);
 		model.addAttribute("result", result);
 		return "dislike";
 	}
 	
-	@RequestMapping(value="reply", method=RequestMethod.GET)
+	@RequestMapping(value="/reply", method=RequestMethod.GET)
 	public String getReply(ReplyVO vo, Model model) {
 		List<ReplyVO> bag = service.getReply(vo);
 		model.addAttribute("reply_bag", bag);
 		return "reply";
 	}
 	
-	@RequestMapping(value="reply", method=RequestMethod.POST)
+	@RequestMapping(value="/reply", method=RequestMethod.POST)
 	public String postReply(ReplyVO vo, Model model) {
 		if(vo.getContent() == "") return "contentlessreply";
 		ReplyVO result = service.postReply(vo);
@@ -70,7 +101,7 @@ public class KidsController {
 		return "submitreply";
 	}
 	
-	@RequestMapping("nextvideo")
+	@RequestMapping("/nextvideo")
 	public String nextVideoList(SearcherVO vo, int count, Model model) {
 		vo.setStart(count * 20);
 		vo.setAmount(20);

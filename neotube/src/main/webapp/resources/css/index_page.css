@@ -16,7 +16,7 @@ li {
 	left: 0px;
 	padding: 10px;
 	margin: 0px;
-	z-index: 1;
+	z-index: 11;
 	background-color: #212121;
 	font-size: 20px;
 	text-align: center;
@@ -55,13 +55,16 @@ aside {
 	margin: 0;
 	background-color: #212121;
 	text-align: center;
+	padding: 105px 0 0 0;
+	z-index: 10;
+}
+aside a {
+	font-size: 15px;
 }
 
 aside > div {
- 	padding: 30px 5px;
-	text-align: center;
-	font-size: 50px;
-	margin-bottom : 10px;
+	height: 50px;
+	line-height: 4em;	
 }
 .video_frame{
 	width: 450px;
@@ -85,6 +88,10 @@ aside > div {
 	margin: 0;
 }
 
-aside, .main_page {
-	padding: 105px 0 0 80px;
+.main_page {
+	padding: 105px 0 0 105px;
+}
+
+.main_frame {
+	margin-left: 105px;
 }
