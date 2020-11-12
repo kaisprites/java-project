@@ -1,22 +1,60 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%
-	session.setAttribute("id","admin");
-%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>NUTUBE KIDS</title>
-<link href="<c:url value="/resources/index.css?after" />" type="text/css" rel="stylesheet" />
+<title>Neotube</title>
+<link rel="stylesheet" href="css/index_page.css">
+<!-- ¸ÞÀÎÆäÀÌÁö css -->
 </head>
 <body>
-<h3>ì¼ë‹¨ ì˜ìƒëª©ë¡ì„ ë„ì›Œë³´ìž</h3>
-<div id="item-list">
+	<!-- »ó´Ü ³×ºñ°ÔÀÌ¼Ç -->
+	<header>
+		<nav class="nav_fix">
+			<div id="main_icon">
+				<h3>
+					<a href="index.html"><img id="logo" src="img/logo3.png" width=150 height=30.61></a>
+				</h3>
+			</div>
+			<div id="nav_category">
+				<ul>
+					<li><a href="">Sports</a></li>
+					<li><a href="">Games</a></li>
+					<li><a href="">Cooking</a></li>
+					<li><a href="">Kids</a></li>
+					<li><a href="">Supports</a></li>
+					<li><a href="">Login</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<!-- ÁÂÃø »çÀÌµå¹Ù -->
+	<aside>
+		<div style="margin-left: -65px;margin-top: 50px;"><a href="" style="font-size: 30px; ">È¨</a></div>
+		<div style="margin-left: -65px;margin-top: 50px;"><a href="" style="font-size: 30px;">ÀÎ±â</a></div>
+		<div style="margin-left: -65px;margin-top: 50px;"><a href="" style="font-size: 30px;">±¸µ¶</a></div>
+		<div style="margin-left: -65px;margin-top: 50px;"><a href="" style="font-size: 30px;">ÁÁ¾Æ¿äÇÑ µ¿¿µ»ó</a></div>
+		<div style="margin-left: -65px;margin-top: 50px;"><a href="" style="font-size: 30px;">½ÃÃ»±â·Ï</a></div>
+		<div style="margin-left: -65px;margin-top: 50px;"><a href="" style="font-size: 30px;">°áÁ¦</a></div>
+	</aside>
+	<!-- º»¹® -->
+	<div class="main_page" >
 	
-</div>
-</body>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="<c:url value="/resources/index.js" />"></script>
-</html>
+	</div>
+	<div class="main_frame" style=" height:auto; overflow:hidden; width: 1950px; margin-left: 195px; ">
+	<% for(int i=0;i<10;i++) {%>
+	<div class="video_frame">
+	<div class="thumbnail_frame">
+	
+	</div>
+	<div class="content_frame">
+	</div>
+	</div>	
+	<%
+	}
+	%>
+	</div>
 
+</body>
+</html>
