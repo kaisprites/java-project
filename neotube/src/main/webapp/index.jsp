@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+    pageEncoding="EUC-KR"%><%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %><%
+	session.setAttribute("id","admin");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Neotube</title>
-<link rel="stylesheet" href="css/index_page.css">
+<title>Neotube KIDS</title>
+<link rel="stylesheet" href="<c:url value="/resources/css/index_page.css?after" />">
+<link href="<c:url value="/resources/css/index.css?after" />" type="text/css" rel="stylesheet" />
 <!-- 메인페이지 css -->
 </head>
 <body>
@@ -40,21 +43,14 @@
 	</aside>
 	<!-- 본문 -->
 	<div class="main_page" >
-	
+		<h1>Mainpage</h1>
 	</div>
 	<div class="main_frame" style=" height:auto; overflow:hidden; width: 1950px; margin-left: 195px; ">
-	<% for(int i=0;i<10;i++) {%>
-	<div class="video_frame">
-	<div class="thumbnail_frame">
-	
-	</div>
-	<div class="content_frame">
-	</div>
-	</div>	
-	<%
-	}
-	%>
+		<div id="item-list">
+		</div>
 	</div>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="<c:url value="/resources/index.js" />"></script>
 </html>
