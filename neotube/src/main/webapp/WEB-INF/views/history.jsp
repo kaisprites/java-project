@@ -52,32 +52,10 @@
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
+<script src="<c:url value="/resources/js/listloader.js" />"></script>
 <script>
-	$(function() {
-		count = 0;
-		load = _=>{ 
-			$.ajax({
-				url: 'listbyhistory',
-				data: {
-					user_id: '${sessionScope.id}',
-					category: "키즈",
-					count: count
-				},
-				success: function (result) {
-					if(result)
-					$("div#item-list").append(result)
-				}
-			})
-		}
-		$(window).scroll(function() {
-			if($(window).scrollTop() >= $(document).height() - $(window).height()) {
-				count++
-				load()
-			}
-		})
-		$(document).ready(function(){load()})
-	})
+	url = 'listbyhistory'
+	user_id = '${sessionScope.id}'
 </script>
 </html>
 

@@ -52,6 +52,10 @@
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="<c:url value="/resources/js/home.js" />"></script>
+<script src="<c:url value="/resources/js/listloader.js" />"></script>
+<script>
+	url = 'list'
+	user_id = '${sessionScope.id}'
+</script>
 </html>
 

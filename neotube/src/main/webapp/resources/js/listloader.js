@@ -3,12 +3,13 @@
  */
 	$(function() {
 		count = 0;
-		load = _=>{ 
+		load = _=>{
 			$.ajax({
-				url: 'list',
+				url: url,
 				data: {
 					category: "키즈",
-					count: count
+					count: count,
+					user_id: user_id
 				},
 				success: function (result) {
 					$("div#item-list").append(result)
@@ -17,9 +18,10 @@
 		}
 		$(window).scroll(function() {
 			if($(window).scrollTop() >= $(document).height() - $(window).height()) {
+				console.log(count)
 				count++
 				load()
 			}
 		})
-		$(document).ready(function(){load()})
+		$(window).ready(function() {load()})
 	})

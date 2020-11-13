@@ -1,5 +1,3 @@
-	function onload
-	
 	$(function(){
 		$('div.item-mouseon-highlighter')
 			.mouseenter(function() {

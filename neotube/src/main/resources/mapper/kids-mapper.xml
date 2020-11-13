@@ -19,7 +19,7 @@
 		limit #{start}, #{amount}
 	</select>
 	<select id = "listBySubscribe" parameterType = "searcherVO" resultType = "kidsVO">
-		select video_id, video_title, video_url, play_num, video_leng, video_date, video.channel_id channel_title, thumbnail 
+		select video_id, video_title, video_url, play_num, video_leng, video_date, video.channel_id, channel_title, thumbnail 
 		from video
 		inner join channel on video.channel_id = channel.channel_id
 		inner join (select * from subscribe where user_id='admin' and subscribe= 1 )subscribe_sq
@@ -38,10 +38,6 @@
 		order by video_date desc, video_title asc
 		limit #{start}, #{amount}
 	</select>
-	<select id = "listBySearch" resultType="kidsVO">
-	</select>
-	<insert id = "upload" parameterType = "kidsVO">
-	</insert>
 	<select id = "listByHistory" parameterType="searcherVO" resultType="kidsVO">
 		select video.video_id, video_title, video_url, play_num, video_leng, video_date, channel_title, thumbnail
 		from video
@@ -52,7 +48,12 @@
 			group by video_id
 			order by max(`date`) desc) user_record_sq
 			on user_record_sq.video_id = video.video_id
+		limit #{start}, #{amount}
 	</select>
+	<select id = "listBySearch" resultType="kidsVO">
+	</select>
+	<insert id = "upload" parameterType = "kidsVO">
+	</insert>
 	<insert id = "addHistory" parameterType = "userControlVO">
 		insert into user_record
 		values (#{user_id}, #{video_id}, #{date})
