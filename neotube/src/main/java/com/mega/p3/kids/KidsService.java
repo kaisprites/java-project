@@ -21,7 +21,7 @@ public class KidsService {
 	}
 
 	public List<KidsVO> listBySearch(String query) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
