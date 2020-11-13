@@ -18,23 +18,23 @@ public class KidsController {
 	//페이지 리다이렉터
 	@RequestMapping("/home")
 	public String home() {
-		return "home";
+		return "kids/home";
 	}
 	@RequestMapping("/popular")
 	public String popular() {
-		return "popular";
+		return "kids/popular";
 	}
 	@RequestMapping("/subscribelist")
 	public String subscribelist() {
-		return "subscribelist";
+		return "kids/subscribelist";
 	}
 	@RequestMapping("/likelist")
 	public String likelist() {
-		return "likelist";
+		return "kids/likelist";
 	}
 	@RequestMapping("/history")
 	public String history() {
-		return "history";
+		return "kids/history";
 	}
 	
 	//전체리스트 뽑아오기
@@ -44,7 +44,7 @@ public class KidsController {
 		vo.setAmount(50);
 		List<KidsVO> bag = service.listByCategory(vo);
 		model.addAttribute("bag", bag);
-		return "list";
+		return "kids/list";
 	}
 	
 	//구독 기준 리스트 뽑아오기
@@ -54,7 +54,7 @@ public class KidsController {
 		vo.setAmount(50);;
 		List<KidsVO> bag = service.listBySubscribe(vo);
 		model.addAttribute("bag", bag);
-		return "list";
+		return "kids/list";
 	}
 	
 	
@@ -65,7 +65,7 @@ public class KidsController {
 		vo.setAmount(50);;
 		List<KidsVO> bag = service.listByLike(vo);
 		model.addAttribute("bag", bag);
-		return "list";
+		return "kids/list";
 	}
 	
 	//시청이력기준 리스트 뽑아오기
@@ -75,7 +75,7 @@ public class KidsController {
 		vo.setAmount(50);;
 		List<KidsVO> bag = service.listByHistory(vo);
 		model.addAttribute("bag", bag);
-		return "list";
+		return "kids/list";
 	}
 	
 	public List<KidsVO> listBySearch(String query) {
@@ -94,14 +94,14 @@ public class KidsController {
 		String[] taglist = video.getTag().split(" ");
 		model.addAttribute("taglist", taglist);
 		
-		return "video";
+		return "kids/video";
 	}
 	
 	//시청이력 추가하기
 	@RequestMapping("/addhistory")
 	public String addHistory(UserControlVO vo) {
 		int result = service.addHistory(vo);
-		return "addhistory";
+		return "kids/addhistory";
 	}
 	
 	//좋아요 버튼
@@ -110,7 +110,7 @@ public class KidsController {
 	public String likeVideo(UserControlVO vo, Model model) {
 		String result = service.likeVideo(vo); //"do", "undo", "toggle"
 		model.addAttribute("result", result);
-		return "like";
+		return "kids/like";
 	}
 	
 	//싫어요 버튼
@@ -118,7 +118,7 @@ public class KidsController {
 	public String dislikeVideo(UserControlVO vo, Model model) {
 		String result = service.dislikeVideo(vo);
 		model.addAttribute("result", result);
-		return "dislike";
+		return "kids/dislike";
 	}
 	
 	//구독 버튼
@@ -126,7 +126,7 @@ public class KidsController {
 	public String subscribe(UserControlVO vo, Model model) {
 		String result = service.subscribe(vo); //"do", "undo"
 		model.addAttribute("result", result);
-		return "subscribe";
+		return "kids/subscribe";
 	}
 	
 	//댓글 가져오기
@@ -134,7 +134,7 @@ public class KidsController {
 	public String getReply(ReplyVO vo, Model model) {
 		List<ReplyVO> bag = service.getReply(vo);
 		model.addAttribute("reply_bag", bag);
-		return "reply";
+		return "kids/reply";
 	}
 	
 	//댓글 쓰기
@@ -142,7 +142,7 @@ public class KidsController {
 	public String postReply(ReplyVO vo, Model model) {
 		ReplyVO result = service.postReply(vo);
 		model.addAttribute("replyvo", result);
-		return "submitreply";
+		return "kids/submitreply";
 	}
 	
 	//다음 동영상
@@ -152,7 +152,7 @@ public class KidsController {
 		vo.setAmount(20);
 		List<KidsVO> bag = service.listByCategory(vo);
 		model.addAttribute("bag", bag);
-		return "nextvideo";
+		return "kids/nextvideo";
 	}
 
 	public void upload(KidsVO vo) {

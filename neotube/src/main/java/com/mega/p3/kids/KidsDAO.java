@@ -13,7 +13,7 @@ public class KidsDAO {
 	SqlSessionTemplate mybatis;
 
 	public KidsVO one(KidsVO kidsVO) {
-		return mybatis.selectOne("one", kidsVO);
+		return mybatis.selectOne("kidsone", kidsVO);
 	}
 
 	public List<KidsVO> listByCategory(SearcherVO vo) {

@@ -5,7 +5,7 @@
 	public List<KidsVO> listByCategory(String category);
 	public List<KidsVO> listBySearch(String query);
 	public void upload(KidsVO vo); -->
-	<select id = "one" parameterType = "kidsVO" resultType = "kidsVO">	
+	<select id = "kidsone" parameterType = "kidsVO" resultType = "kidsVO">	
 		select video_id, video_title, video_url, play_num, video_date, like_num, dislike_num, tag, category, video.channel_id, channel_title
 		from video
 		inner join channel on video.channel_id = channel.channel_id
