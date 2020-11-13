@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" href="<c:url value="/resources/css/nextvideo.css?after" />" type="text/css" />
 <c:forEach items = "${bag}" var="vo">
     <div class="next-video" onclick="location.href='video?id=${ vo.video_id }'">
    		<div class="next-video-thumbnail">

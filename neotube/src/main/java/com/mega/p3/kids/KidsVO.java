@@ -2,6 +2,7 @@ package com.mega.p3.kids;
 
 import java.util.Date;
 
+//영상 1개 가져오기 VO
 public class KidsVO {
 	String video_id;
 	String video_title;
@@ -15,6 +16,7 @@ public class KidsVO {
 	String category;
 	String channel_id;
 	String thumbnail;
+	String channel_title;
 	public String getVideo_id() {
 		return video_id;
 	}
@@ -86,6 +88,13 @@ public class KidsVO {
 	}
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+	
+	public String getChannel_title() {
+		return channel_title;
+	}
+	public void setChannel_title(String channel_title) {
+		this.channel_title = channel_title;
 	}
 	@Override
 	public String toString() {

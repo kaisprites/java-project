@@ -2,6 +2,7 @@ package com.mega.p3.kids;
 
 import java.util.Date;
 
+//댓글가져오기용 VO
 public class ReplyVO {
 	String reply_id;
 	String user_id;

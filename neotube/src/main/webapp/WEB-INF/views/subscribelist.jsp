@@ -43,7 +43,7 @@
 	</aside>
 	<!-- 본문 -->
 	<div class="main_page">
-		<h1>좋아요한 목록</h1>
+		<h1>구독한 목록</h1>
 	</div>
 	<div class="main_frame">
 		<div id="item-list">
@@ -58,7 +58,7 @@
 		count = 0;
 		load = _=>{ 
 			$.ajax({
-				url: 'listbylike',
+				url: 'listbysubscribe',
 				data: {
 					user_id: '${sessionScope.id}',
 					category: "키즈",

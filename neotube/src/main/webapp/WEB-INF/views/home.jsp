@@ -36,7 +36,7 @@
 	<aside>
 		<div><a href="../kids/home">홈</a></div>
 		<div><a href="../kids/popular">인기</a></div>
-		<div><a href="../kids/subscribed">구독</a></div>
+		<div><a href="../kids/subscribelist">구독</a></div>
 		<div><a href="../kids/likelist">좋아요</a></div>
 		<div><a href="../kids/history">시청기록</a></div>
 		<div><a href="">결제</a></div>
@@ -52,6 +52,6 @@
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="<c:url value="/resources/js/home.js" />"></script>
+<script src="<c:url value="/resources/js/list.js" />"></script>
 </html>
 

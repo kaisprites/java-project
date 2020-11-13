@@ -1,6 +1,5 @@
 package com.mega.p3.kids;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +11,24 @@ public class KidsService {
 	@Autowired
 	KidsDAO dao;
 
-	public KidsVOWithChannel one(KidsVO kidsVO) {
+	public KidsVO one(KidsVO kidsVO) {
 		return dao.one(kidsVO);
 	}
 
-	public List<KidsVOWithChannel> listByCategory(SearcherVO vo) {
+	public List<KidsVO> listByCategory(SearcherVO vo) {
 		return dao.listByCategory(vo);
 	}
 	
-	public List<KidsVOWithChannel> listByLike(SearcherVO vo) {
+	public List<KidsVO> listBySubscribe(SearcherVO vo) {
+		return dao.listBySubscribe(vo);
+	}
+	
+	public List<KidsVO> listByLike(SearcherVO vo) {
 		return dao.listByLike(vo);
+	}
+	
+	public List<KidsVO> listByHistory(SearcherVO vo) {
+		return dao.listByHistory(vo);
 	}
 
 	public List<KidsVO> listBySearch(String query) {
@@ -32,6 +39,11 @@ public class KidsService {
 	public void upload(KidsVO vo) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public int addHistory(UserControlVO vo) {
+		vo.setDate(new java.util.Date());
+		return dao.addHistory(vo);
 	}
 	
 	public Integer getLike(UserControlVO vo) {
@@ -79,6 +91,23 @@ public class KidsService {
 		dao.videoDislike(vo);
 		return "do";
 	}
+	
+	public String subscribe(UserControlVO vo) {
+		System.out.println(vo);
+		Boolean did = dao.getSubscribe(vo);
+		if (did == null) {
+			dao.setSubscribe(vo);
+			return "do";
+		}
+		else if (did.booleanValue()==false) {
+			dao.doSubscribe(vo);
+			return "do";
+		}
+		else{
+			dao.undoSubscribe(vo);
+			return "undo";
+		}
+	}
 
 	public List<ReplyVO> getReply(ReplyVO vo) {
 		return dao.getReply(vo);
@@ -91,11 +120,10 @@ public class KidsService {
 		rmidvo.setCategory(category);
 		int replyMaxId = dao.getReplyMaxID(rmidvo);
 		vo.setReply_id(category + "_" + (replyMaxId+1));
-		vo.setDate(new Date());
+		vo.setDate(new java.util.Date());
 		dao.postReply(vo);
 		return vo;
 	}
-
 
 
 //	public List<KidsVO> nextVideoList() {

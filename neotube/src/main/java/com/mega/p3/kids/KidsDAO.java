@@ -12,23 +12,41 @@ public class KidsDAO {
 	@Autowired
 	SqlSessionTemplate mybatis;
 
-	public KidsVOWithChannel one(KidsVO kidsVO) {
+	public KidsVO one(KidsVO kidsVO) {
 		return mybatis.selectOne("one", kidsVO);
 	}
 
-	public List<KidsVOWithChannel> listByCategory(SearcherVO vo) {
-		List<KidsVOWithChannel> result = mybatis.selectList("listByCategory", vo);
+	public List<KidsVO> listByCategory(SearcherVO vo) {
+		List<KidsVO> result = mybatis.selectList("listByCategory", vo);
+		return result;
+	}
+	
+	public List<KidsVO> listBySubscribe(SearcherVO vo) {
+		List<KidsVO> result = mybatis.selectList("listBySubscribe", vo);
+		return result;
+	}
+	
+	public List<KidsVO> listByLike(SearcherVO vo) {
+		List<KidsVO> result = mybatis.selectList("listByLike", vo);
+		return result;
+	}
+	
+	public List<KidsVO> listByHistory(SearcherVO vo) {
+		List<KidsVO> result = mybatis.selectList("listByHistory", vo);
 		return result;
 	}
 	
 	public List<KidsVO> listBySearch(String query) {
-		List<KidsVOWithChannel> result = mybatis.selectList("listByCategory", vo);
 		return null;
 	}
 
 	public void upload(KidsVO vo) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public int addHistory(UserControlVO vo) {
+		return mybatis.insert("addHistory",vo);
 	}
 
 	public Integer getLike(UserControlVO vo) {
@@ -62,6 +80,22 @@ public class KidsDAO {
 	public int videoDislike(UserControlVO vo) {
 		return mybatis.update("videoDislike", vo);
 	}
+	
+	public Boolean getSubscribe(UserControlVO vo) {
+		return mybatis.selectOne("getSubscribeOne",vo);
+	}
+	
+	public int setSubscribe(UserControlVO vo) {
+		return mybatis.insert("setSubscribe", vo);
+	}
+
+	public int doSubscribe(UserControlVO vo) {
+		return mybatis.update("doSubscribe", vo);
+	}
+
+	public int undoSubscribe(UserControlVO vo) {
+		return mybatis.update("undoSubscribe", vo);
+	}
 
 	public List<ReplyVO> getReply(ReplyVO vo) {
 		List<ReplyVO> bag = mybatis.selectList("getReply",vo);
@@ -80,5 +114,5 @@ public class KidsDAO {
 	public String getCategory(ReplyVO vo) {
 		return mybatis.selectOne("getCategory",vo);
 	}
-	
+
 }

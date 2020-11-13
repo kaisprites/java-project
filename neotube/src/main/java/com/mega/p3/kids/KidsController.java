@@ -15,6 +15,7 @@ public class KidsController {
 	@Autowired
 	KidsService service;
 	
+	//페이지 리다이렉터
 	@RequestMapping("/home")
 	public String home() {
 		return "home";
@@ -23,9 +24,9 @@ public class KidsController {
 	public String popular() {
 		return "popular";
 	}
-	@RequestMapping("/subscribed")
-	public String subscribed() {
-		return "subscribed";
+	@RequestMapping("/subscribelist")
+	public String subscribelist() {
+		return "subscribelist";
 	}
 	@RequestMapping("/likelist")
 	public String likelist() {
@@ -36,20 +37,43 @@ public class KidsController {
 		return "history";
 	}
 	
-	@RequestMapping("/home")
+	//전체리스트 뽑아오기
+	@RequestMapping("/list")
 	public String listByCategory(SearcherVO vo, int count, Model model) {
 		vo.setStart(count * 50);
 		vo.setAmount(50);
-		List<KidsVOWithChannel> bag = service.listByCategory(vo);
+		List<KidsVO> bag = service.listByCategory(vo);
 		model.addAttribute("bag", bag);
 		return "list";
 	}
 	
-	@RequestMapping("/likelist")
+	//구독 기준 리스트 뽑아오기
+	@RequestMapping("/listbysubscribe")
+	public String listBySubscribe(SearcherVO vo, int count, Model model) {
+		vo.setStart(count * 50);
+		vo.setAmount(50);;
+		List<KidsVO> bag = service.listBySubscribe(vo);
+		model.addAttribute("bag", bag);
+		return "list";
+	}
+	
+	
+	//좋아요 기준 리스트 뽑아오기
+	@RequestMapping("/listbylike")
 	public String listByLike(SearcherVO vo, int count, Model model) {
 		vo.setStart(count * 50);
 		vo.setAmount(50);;
-		List<KidsVOWithChannel> bag = service.listByLike(vo);
+		List<KidsVO> bag = service.listByLike(vo);
+		model.addAttribute("bag", bag);
+		return "list";
+	}
+	
+	//시청이력기준 리스트 뽑아오기
+	@RequestMapping("/listbyhistory")
+	public String listByHistory(SearcherVO vo, int count, Model model) {
+		vo.setStart(count * 50);
+		vo.setAmount(50);;
+		List<KidsVO> bag = service.listByHistory(vo);
 		model.addAttribute("bag", bag);
 		return "list";
 	}
@@ -59,11 +83,12 @@ public class KidsController {
 		return null;
 	}
 	
+	//비디오 1개 정보 뽑아오기 
 	@RequestMapping("/video")
 	public String getVideo(String id, String user_id, Model model) {
 		KidsVO vo = new KidsVO();
 		vo.setVideo_id(id);
-		KidsVOWithChannel video = service.one(vo);
+		KidsVO video = service.one(vo);
 		model.addAttribute("video", video);
 		
 		String[] taglist = video.getTag().split(" ");
@@ -72,6 +97,15 @@ public class KidsController {
 		return "video";
 	}
 	
+	//시청이력 추가하기
+	@RequestMapping("/addhistory")
+	public String addHistory(UserControlVO vo) {
+		int result = service.addHistory(vo);
+		return "addhistory";
+	}
+	
+	//좋아요 버튼
+	//결과는 "do", "undo", "toggle" 중 하나이며 결과에 따라서 페이지의 동작이 다르다.
 	@RequestMapping("/like")
 	public String likeVideo(UserControlVO vo, Model model) {
 		String result = service.likeVideo(vo); //"do", "undo", "toggle"
@@ -79,6 +113,7 @@ public class KidsController {
 		return "like";
 	}
 	
+	//싫어요 버튼
 	@RequestMapping("/dislike")
 	public String dislikeVideo(UserControlVO vo, Model model) {
 		String result = service.dislikeVideo(vo);
@@ -86,6 +121,15 @@ public class KidsController {
 		return "dislike";
 	}
 	
+	//구독 버튼
+	@RequestMapping(value="/subscribe", method=RequestMethod.POST)
+	public String subscribe(UserControlVO vo, Model model) {
+		String result = service.subscribe(vo); //"do", "undo"
+		model.addAttribute("result", result);
+		return "subscribe";
+	}
+	
+	//댓글 가져오기
 	@RequestMapping(value="/reply", method=RequestMethod.GET)
 	public String getReply(ReplyVO vo, Model model) {
 		List<ReplyVO> bag = service.getReply(vo);
@@ -93,19 +137,20 @@ public class KidsController {
 		return "reply";
 	}
 	
+	//댓글 쓰기
 	@RequestMapping(value="/reply", method=RequestMethod.POST)
 	public String postReply(ReplyVO vo, Model model) {
-		if(vo.getContent() == "") return "contentlessreply";
 		ReplyVO result = service.postReply(vo);
 		model.addAttribute("replyvo", result);
 		return "submitreply";
 	}
 	
+	//다음 동영상
 	@RequestMapping("/nextvideo")
 	public String nextVideoList(SearcherVO vo, int count, Model model) {
 		vo.setStart(count * 20);
 		vo.setAmount(20);
-		List<KidsVOWithChannel> bag = service.listByCategory(vo);
+		List<KidsVO> bag = service.listByCategory(vo);
 		model.addAttribute("bag", bag);
 		return "nextvideo";
 	}

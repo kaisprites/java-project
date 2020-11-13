@@ -1,10 +1,7 @@
 package com.mega.p3.kids;
 
+//댓글 인덱스 최고 번호 가져오기용 VO
 public class ReplyMaxIDVO {
-	@Override
-	public String toString() {
-		return "ReplyMaxIDVO [reply_id=" + reply_id + ", category=" + category + "]";
-	}
 	String reply_id;
 	String category;
 	public String getReply_id() {
