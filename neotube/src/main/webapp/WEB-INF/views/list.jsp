@@ -1,6 +1,6 @@
 <%@page import="com.mega.p3.kids.KidsVO"%><%@page import="java.util.List"%><%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:if test="${empty bag}"><h2>적절한 영상이 없습니다.</h2></c:if>
+<c:if test="${empty bag}"><h2>영상 로딩이 끝났습니다.</h2></c:if>
 <c:forEach items="${bag}" var="vo">	
 	<div class="item" onclick="location.href='video?id=${ vo.video_id }'">
 		<input name="" value="" hidden="hidden">
@@ -27,4 +27,4 @@
 		<div class="item-mouseon-highlighter"></div>
 	</div>
 </c:forEach>
-<script src="<c:url value="/resources/list.js" />"></script>
+<script src="<c:url value="/resources/js/list.js" />"></script>

@@ -25,6 +25,7 @@
 		inner join (select * from subscribe where user_id='admin' and subscribe= 1 )subscribe_sq
 			on video.channel_id = subscribe_sq.channel_id
 		order by video_date desc, video_title asc
+		limit #{start}, #{amount}
 	</select>
 	<select id = "listByLike" parameterType="searcherVO" resultType="kidsVO">
 		select video.video_id, video_title, video_url, play_num, video_leng, video_date, channel_title, thumbnail 

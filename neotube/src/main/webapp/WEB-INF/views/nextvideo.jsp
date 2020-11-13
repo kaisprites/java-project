@@ -17,4 +17,4 @@
    		<div class="next-video-mouseon-highlighter"></div>
    	</div>
 </c:forEach>
-<script src="<c:url value="/resources/nextvideo.js?after" />"></script>
+<script src="<c:url value="/resources/js/nextvideo.js?after" />"></script>
