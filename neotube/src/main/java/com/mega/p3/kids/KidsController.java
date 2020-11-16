@@ -1,12 +1,20 @@
 package com.mega.p3.kids;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 @RequestMapping("kids")
 @Controller
@@ -46,6 +54,15 @@ public class KidsController {
 		model.addAttribute("bag", bag);
 		return "kids/list";
 	}
+	//인기 기준 리스트 뽑아오기
+	@RequestMapping("/listbypopular")
+	public String listByPopular(SearcherVO vo, int count, Model model) {
+		vo.setStart(count * 50);
+		vo.setAmount(50);
+		List<KidsVO> bag = service.listByPopular(vo);
+		model.addAttribute("bag", bag);
+		return "kids/list";
+	}
 	
 	//구독 기준 리스트 뽑아오기
 	@RequestMapping("/listbysubscribe")
@@ -76,11 +93,6 @@ public class KidsController {
 		List<KidsVO> bag = service.listByHistory(vo);
 		model.addAttribute("bag", bag);
 		return "kids/list";
-	}
-	
-	public List<KidsVO> listBySearch(String query) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	//비디오 1개 정보 뽑아오기 
@@ -155,9 +167,25 @@ public class KidsController {
 		return "kids/nextvideo";
 	}
 
-	public void upload(KidsVO vo) {
-		// TODO Auto-generated method stub
-
+	@RequestMapping("/json")
+	public String jsonTester(Model model) {		
+		MongoClient mongoClient = MongoClients.create("mongodb+srv://root:1234@neotubekids.e68cc.mongodb.net/neotube?retryWrites=true&w=majority");
+		MongoDatabase database = mongoClient.getDatabase("neotube");
+		MongoCollection<Document> collection = database.getCollection("neotube");
+		
+		//insert
+		Document insertData = new Document().append("k3", new Document().append("k4", "v4").append("k5", "v5"));
+//		collection.insertOne(insertData);
+		
+		//replace
+//		collection.replaceOne(Filters.eq("k3", insertData.get("k3")),
+//				new Document().append("k6", new Document().append("k7", "v7")));
+		
+		//find
+		List<Document> foundDocument = collection.find().into(new ArrayList<Document>());
+		model.addAttribute("json", foundDocument);
+		
+		mongoClient.close();
+		return "kids/json";
 	}
-
 }

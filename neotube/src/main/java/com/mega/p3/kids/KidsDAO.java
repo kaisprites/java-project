@@ -21,6 +21,11 @@ public class KidsDAO {
 		return result;
 	}
 	
+	public List<KidsVO> listByPopular(SearcherVO vo) {
+		List<KidsVO> result = mybatis.selectList("listByPopular", vo);
+		return result;
+	}
+	
 	public List<KidsVO> listBySubscribe(SearcherVO vo) {
 		List<KidsVO> result = mybatis.selectList("listBySubscribe", vo);
 		return result;
@@ -34,15 +39,6 @@ public class KidsDAO {
 	public List<KidsVO> listByHistory(SearcherVO vo) {
 		List<KidsVO> result = mybatis.selectList("listByHistory", vo);
 		return result;
-	}
-	
-	public List<KidsVO> listBySearch(String query) {
-		return null;
-	}
-
-	public void upload(KidsVO vo) {
-		// TODO Auto-generated method stub
-
 	}
 	
 	public int addHistory(UserControlVO vo) {
@@ -114,5 +110,7 @@ public class KidsDAO {
 	public String getCategory(KidsReplyVO vo) {
 		return mybatis.selectOne("getCategory",vo);
 	}
+
+
 
 }

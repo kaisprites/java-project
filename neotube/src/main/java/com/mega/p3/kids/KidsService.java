@@ -19,6 +19,10 @@ public class KidsService {
 		return dao.listByCategory(vo);
 	}
 	
+	public List<KidsVO> listByPopular(SearcherVO vo) {
+		return dao.listByPopular(vo);
+	}
+	
 	public List<KidsVO> listBySubscribe(SearcherVO vo) {
 		return dao.listBySubscribe(vo);
 	}
@@ -31,15 +35,6 @@ public class KidsService {
 		return dao.listByHistory(vo);
 	}
 
-	public List<KidsVO> listBySearch(String query) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void upload(KidsVO vo) {
-		// TODO Auto-generated method stub
-
-	}
 	
 	public int addHistory(UserControlVO vo) {
 		vo.setDate(new java.util.Date());

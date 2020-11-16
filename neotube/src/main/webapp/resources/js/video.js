@@ -3,6 +3,7 @@
  */
 $(function() {
 	count = 0
+	timestamp = 0;
 	// 시청기록
 	if('' != '') {
 		$.ajax({
@@ -156,5 +157,15 @@ $(function() {
 				}
 			})
 		}
+	})
+	
+	//타임스탬퍼
+	$(document).ready(function() {
+		timestamp = Math.floor(+new Date()/1000);
+		alert(timestamp + " 에 onload 했수다!");
+	})
+	$(window).unload(function() {
+		elapsed = Math.floor(+new Date()/1000) - timestamp;
+		alert(elapsed + "초 후 unload 했수다!");
 	})
 })

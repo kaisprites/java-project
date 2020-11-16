@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kids"><!-- 
-	public KidsVO one(String video_id);
-	public List<KidsVO> listByCategory(String category);
-	public List<KidsVO> listBySearch(String query);
-	public void upload(KidsVO vo); -->
-	<select id = "kidsone" parameterType = "kidsVO" resultType = "kidsVO">	
+<mapper namespace="kids">
+	<select id = "kidsone" parameterType = "kidsVO" resultType = "kidsVO">
+	<!-- 동영상 1개 record 추출 -->	
 		select video_id, video_title, video_url, play_num, video_date, like_num, dislike_num, tag, category, video.channel_id, channel_title
 		from video
 		inner join channel on video.channel_id = channel.channel_id
 		where video_id = #{video_id}
 	</select>
 	<select id = "listByCategory" parameterType = "searcherVO" resultType="kidsVO">
+	<!-- 동영상 전체 record 추출 -->
 		select video_id, video_title, video_url, play_num, video_leng, video_date, channel_title, thumbnail 
 		from video
 		inner join channel on video.channel_id = channel.channel_id
 		order by video_date desc, video_title asc
+		limit #{start}, #{amount}
+	</select>
+	<select id = "listByPopular" parameterType = "searcherVO" resultType = "kidsVO">
+	<!-- 재생수, 좋아요수, 7일간의 재생수, 7일간의 댓글수를 기반으로 인기 점수 산출하여 정렬 -->
+		select video.video_id, video_title, video_url, play_num, video_leng, video_date, channel_title, thumbnail
+		from video
+		inner join channel on video.channel_id = channel.channel_id
+		left outer join (select video_id, count(*) as c1
+						from reply
+						where `date` between date_sub(now(), interval 7 day) and now()
+						group by video_id) reply_count
+						on video.video_id = reply_count.video_id
+		left outer join (select video_id, count(*) as c2
+						from user_record
+						where `date` between date_sub(now(), interval 7 day) and now()
+						group by video_id) user_record_count
+						on video.video_id = user_record_count.video_id
+		(play_num + like_num * 100 + ifnull(c1,0) * 10000 + ifnull(c2,0) * 10) / datediff(now(), video_date) desc
 		limit #{start}, #{amount}
 	</select>
 	<select id = "listBySubscribe" parameterType = "searcherVO" resultType = "kidsVO">
@@ -118,13 +134,13 @@
 		from reply
 		where reply_id like concat(#{category}, "_%")
 	</select>
-	<select id = "getReply" parameterType = "replyVO" resultType = "replyVO">
+	<select id = "getReply" parameterType = "kidsReplyVO" resultType = "kidsReplyVO">
 		select user_id, content, date
 		from reply
 		where video_id = #{video_id}
 		order by date desc
 	</select> 
-	<insert id = "postReply" parameterType = "replyVO">
+	<insert id = "postReply" parameterType = "kidsReplyVO">
 		insert into reply
 		value (#{reply_id}, #{user_id}, #{video_id}, null, #{content}, #{date})
 	</insert>
